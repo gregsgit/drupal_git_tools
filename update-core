@@ -44,8 +44,9 @@ fi
 
 rnd=$RANDOM
 mkdir -pv ~/temp/sites_${rnd}
-mv ${root_path}/sites ~/temp/sites_${rnd}/
+mv ${root_path}/sites ~/temp/sites_${rnd}
 mv ${root_path}/.git ~/temp/git_${rnd}/
+mv ${root_path}/.gitignore ~/temp/gitignore_${rnd}/
 mv ${root_path}/private_files ~/temp/private_files_${rnd}/
 echo "saved ${root_path}/sites to ~/temp/sites_${rnd}"
 echo "saved ${root_path}/.git to ~/temp/git_${rnd}"
@@ -57,12 +58,13 @@ echo "running rsync to copy new files into ${dirname}"
 rsync -avicC --delete ${newcore_path}/ ${root_path}/
 
 cd ${root_path}
-mv ~/temp/git_${rnd}/.git .
+mv ~/temp/git_${rnd} ./.git
+mv ~/temp/gitignore_${rnd} ./.gitignore
+mv ./sites ~/temp/sites_fresh_${rnd}
+mv ~/sites_${rnd} ./sites
+
 # ${cwd}/remove-missing
 # ${cwd}/add-unknown
-echo "move ${root_path}/sites to ~/temp/sites_empty"
-echo "move ~/temp/sites_${rnd} back to ${root_path}"
-echo "move ~/temp/git_${rnd} back to ${root_path}/.git"
 echo "move ~/temp/private_files_${rnd} back to ${root_path}/provate_files"
 echo "then commit changes"
 cd ${cwd}

@@ -1,0 +1,8 @@
+#!/bin/bash
+echo "deleting missing files from svn, cwd = " `pwd`
+missing=`svn status | grep ^! | awk {'print $2'}`
+echo "to be deleted: [$missing]"
+read -p "Press any key to continue."
+if [ -n "$missing" ] ; then
+   svn status | grep ^! | awk {'print $2'} | xargs svn rm
+fi

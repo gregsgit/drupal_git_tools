@@ -1,0 +1,13 @@
+#!/bin/bash
+IFS=","
+echo "adding unknown to svn, cwd = " `pwd`
+unknown=`svn status | grep ^? | sed 's/^\?[[:space:]]*\(.*\)/\1,/' | tr -d '\n'`
+echo "to be added: [$unknown]"
+read -p "Press any key to continue."
+if [ -n "$unknown" ] ; then
+    for i in $unknown ; do
+	echo "adding $i";
+	svn add "$i"
+    done ;
+fi
+echo "Don't forget to run svn commit."

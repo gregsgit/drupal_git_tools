@@ -1,0 +1,68 @@
+#!/bin/bash
+#
+# Usage: ./update-core path-to-new-core path-to-site-toplevel
+# Ex.: ./update-core ~/core-update/drupal-6.25 ~/public_html
+#
+#  * Make sure the site is up to date w.r.t. git repo (no uncommitted edits)
+#  * cwd should be (a) not under website folder, and (b) in folder with remove-missing, add-unknown
+#  * download and unpack drupal*.tgz to ./core-update/drupal-n.nn
+# 
+# WARNING: rsync --delete will delete any files not in new version of drupal!
+
+#  see http://thedrupalblog.com/updating-drupal-module-subversion-integrated-filesystem-using-rsync
+
+print_usage_and_exit () {
+  echo "Usage: `basename $0` path_to_new_core path_to_drupal_root"
+  echo "   Ex.: `basename $0` ~/core-update/drupal-6.25 ~/public_html"
+  exit 65
+}
+
+if [ $# -ne 2 ]
+then
+  echo "wrong number of arguments"
+  print_usage_and_exit
+fi
+
+cwd=`pwd`
+if [ ! -e ${cwd}/remove-missing ] || [ ! -e ${cwd}/add-unknown ]
+then
+  echo "missing scripts ./remove-missing and/or ./add-unknown"
+  print_usage_and_exit
+fi
+
+newcore_path=$1
+root_path=$2
+
+# simple validity check
+if [ ! -e ${root_path}/themes/garland/garland.info ]
+then
+  echo "${root_path} doesn't look like a drupal root"
+  print_usage_and_exit
+fi
+
+# save away "sites" and ".svn" folders from current website
+
+rnd=$RANDOM
+mkdir -pv ~/temp/sites_${rnd}
+mv ${root_path}/sites ~/temp/sites_${rnd}/
+mv ${root_path}/.git ~/temp/git_${rnd}/
+mv ${root_path}/private_files ~/temp/private_files_${rnd}/
+echo "saved ${root_path}/sites to ~/temp/sites_${rnd}"
+echo "saved ${root_path}/.git to ~/temp/git_${rnd}"
+echo "saved ${root_path}/private_files to ~/temp/private_files_${rnd}"
+
+echo "running rsync to copy new files into ${dirname}"
+# -a = archive (recursive, links, preserve permissions, preserve times, preserve group, preserve owner, specials)
+# -v = verbose, -i = itemize changes, -c = checksum-based, -C = auto-ignore
+rsync -avicC --delete ${newcore_path}/ ${root_path}/
+
+cd ${root_path}
+mv ~/temp/git_${rnd}/.git .
+# ${cwd}/remove-missing
+# ${cwd}/add-unknown
+echo "move ${root_path}/sites to ~/temp/sites_empty"
+echo "move ~/temp/sites_${rnd} back to ${root_path}"
+echo "move ~/temp/git_${rnd} back to ${root_path}/.git"
+echo "move ~/temp/private_files_${rnd} back to ${root_path}/provate_files"
+echo "then commit changes"
+cd ${cwd}

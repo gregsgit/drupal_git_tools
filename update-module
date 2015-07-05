@@ -1,0 +1,56 @@
+#!/bin/bash
+#
+# Usage:  ./update-module path-to-new-module path-to-drupal-root
+# Ex:     ./update-module ~/temp/my_module ~/public_html
+#
+# Current directory must also contain remove-missing and add-unknown scripts
+#
+# Uses rsync to update <drupal_root>/sites/all/modules/<module_name>
+#   - will delete files in .../sites/all/modules/module_name that don't exist in new version
+#   - will not copy files that are the same in both places.
+#   - will copy files that are in new module but not under old version
+#
+# Then uses svn status to figure out which files need to be deleted or added from/to svn.
+#
+# Warning: Will blow away any local changes -- that is, assumes that whatever is downloaded as 
+#    module-name.tgz is complete.
+#  see http://thedrupalblog.com/updating-drupal-module-subversion-integrated-filesystem-using-rsync
+
+print_usage_and_exit () {
+  echo "Usage: `basename $0` path_to_new_module path_to_drupal_root"
+  echo "   Ex.: `basename $0` ~/module-updates/my_module ~/public_html"
+  exit 65
+}
+
+if [ $# -ne 2 ]
+then
+  echo "wrong number of arguments"
+  print_usage_and_exit
+fi
+
+cwd=`pwd`
+if [ ! -e ${cwd}/remove-missing ] || [ ! -e ${cwd}/add-unknown ]
+then
+  echo "missing scripts ./remove-missing or ./add-unknown"
+  print_usage_and_exit
+fi
+
+newmod_path=$1
+root_path=$2
+
+# simple validity check
+if [ ! -e ${root_path}/sites/default/settings.php ]
+then
+  echo "${root_path} does not look like a drupal installation."
+  print_usage_and_exit
+fi
+
+modname=`basename $newmod_path`
+# -a = archive (recursive, links, preserve permissions, preserve times, preserve group, preserve owner, specials
+# -v = verbose, -c = checksum-based, -C = auto-ignore
+rsync -avcC --delete ${newmod_path}/ ${root_path}/sites/all/modules/${modname}/
+cd ${root_path}/sites/all/modules/${modname}/
+# ${cwd}/add-unknown
+echo "don't forget to commit"
+cd ${cwd}
+exit 0

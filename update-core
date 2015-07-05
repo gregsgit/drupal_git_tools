@@ -33,7 +33,7 @@ then
   print_usage_and_exit
 fi
 
-# save away "sites" and ".svn" folders from current website
+# save away "sites" and ".git" folders from current website
 
 rnd=$RANDOM
 mkdir -pv ~/temp/sites_${rnd}
@@ -56,8 +56,6 @@ mv ~/temp/gitignore_${rnd} ./.gitignore
 mv ./sites ~/temp/sites_fresh_${rnd}
 mv ~/sites_${rnd} ./sites
 
-# ${cwd}/remove-missing
-# ${cwd}/add-unknown
 echo "move ~/temp/private_files_${rnd} back to ${root_path}/provate_files"
 echo "then commit changes"
 cd ${cwd}

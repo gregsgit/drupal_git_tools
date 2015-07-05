@@ -21,6 +21,9 @@ Suppose top level site folder is ~/public\_html ...
 *   git commit -a -m 'updated core to x.nn'
 *   git checkout master
 *   git merge core-updates
+*   git push
+    * note that if your post-receive hook does a checkout, that may mess up
+	  your permissions.
 * chmod -R 755 ~/public_html
 
 # Updating a module
@@ -40,4 +43,7 @@ Suppose top level site folder is ~/public\_html ...
 *   git commit -a -m 'updated <module name> module'
 *   git checkout master
 *   git merge module-updates
+*   git push
+    * note that if your post-receive hook does a checkout, that may mess up
+	  your permissions.
 * chmod -R 755 ~/public_html

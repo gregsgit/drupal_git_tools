@@ -23,13 +23,6 @@ then
   print_usage_and_exit
 fi
 
-cwd=`pwd`
-if [ ! -e ${cwd}/remove-missing ] || [ ! -e ${cwd}/add-unknown ]
-then
-  echo "missing scripts ./remove-missing and/or ./add-unknown"
-  print_usage_and_exit
-fi
-
 newcore_path=$1
 root_path=$2
 

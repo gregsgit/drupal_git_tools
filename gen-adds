@@ -1,0 +1,17 @@
+#!/bin/bash
+#
+# Generate a list of 'git add' commands for untracked files
+#
+# Usage:    ./gen-adds 
+# Example:  cd ~/public_html ; ~/drupal_git_tools/gen-adds > adds.out
+#           [edit adds.out, removing files you don't want to add]
+#           . adds.out
+#           git commit -m "added new files"
+#           [git pull ; git push]
+
+git status --porcelain --untracked-files=normal | while read -r status name ; do
+    if [ "$status" == "??" ]
+    then
+	echo "git add $name"
+    fi
+done

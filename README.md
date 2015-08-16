@@ -47,3 +47,17 @@ Suppose top level site folder is ~/public\_html ...
     * note that if your post-receive hook does a checkout, that may mess up
 	  your permissions.
 * chmod -R 755 ~/public_html
+
+# Adding untracked files
+
+For a drupal site, it might be that files are uploaded via the drupal
+file manager. Sometimes you want to collect all the untracked files
+and add/stage them.
+
+* cd ~/public_html
+* ~/drupal\_git\_tools\gen-adds > ../adds.out
+* *remove lines from adds.out for files you do not want to add*
+* . ../adds.out
+* git commit -m 'added new files'
+* git pull ; git push ; etc.
+

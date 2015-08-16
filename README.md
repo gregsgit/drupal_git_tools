@@ -35,7 +35,7 @@ Suppose top level site folder is ~/public\_html ...
 * cd ~/public_html
 *   git checkout -b module-updates
 * cd ~/drupal\_git\_tools
-*   ./update-module ~/drupal-module-updates/*module- name* ~/public_html
+*   ./update-module ~/drupal-module-updates/*module-name* ~/public_html
 * edit ~/public_html/sites/default, settings.php, set $update\_free\_access to TRUE.
 *   visit http://website.html/update.php
 * cd ~/public_html
@@ -55,7 +55,7 @@ file manager. Sometimes you want to collect all the untracked files
 and add/stage them.
 
 * cd ~/public_html
-* ~/drupal\_git\_tools\gen-adds > ../adds.out
+* ~/drupal\_git\_tools/gen-adds > ../adds.out
 * *remove lines from adds.out for files you do not want to add*
 * . ../adds.out
 * git commit -m 'added new files'

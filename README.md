@@ -4,7 +4,7 @@ Tools to maintain a drupal install managed by git
 Suppose this repo is checked out in ~/drupal\_git\_tools ...
 Suppose top level site folder is ~/public\_html ...
 
-# Updating core
+## Updating core
 
 * backup drupal database (e.g. via web using 'Backup and Migrate' module).
 
@@ -26,7 +26,7 @@ Suppose top level site folder is ~/public\_html ...
 	  your permissions.
 * chmod -R 755 ~/public_html
 
-# Updating a module
+## Updating a module
 
 * backup drupal database (e.g. via web using 'Backup and Migrate' module).
 
@@ -48,7 +48,7 @@ Suppose top level site folder is ~/public\_html ...
 	  your permissions.
 * chmod -R 755 ~/public_html
 
-# Adding untracked files
+## Adding untracked files
 
 For a drupal site, it might be that files are uploaded via the drupal
 file manager. Sometimes you want to collect all the untracked files

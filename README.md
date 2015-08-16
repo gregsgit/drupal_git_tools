@@ -35,7 +35,7 @@ Suppose top level site folder is ~/public\_html ...
 * cd ~/public_html
 *   git checkout -b module-updates
 * cd ~/drupal\_git\_tools
-*   ./update-module ~/drupal-module-updates/<module name> ~/public_html
+*   ./update-module ~/drupal-module-updates/*module- name* ~/public_html
 * edit ~/public_html/sites/default, settings.php, set $update\_free\_access to TRUE.
 *   visit http://website.html/update.php
 * cd ~/public_html

@@ -24,6 +24,7 @@ Suppose top level site folder is ~/public\_html ...
 *   git push
     * note that if your post-receive hook does a checkout, that may mess up
 	  your permissions.
+* git branch -d core-updates
 * chmod -R 755 ~/public_html
 
 ## Updating a module
@@ -46,6 +47,7 @@ Suppose top level site folder is ~/public\_html ...
 *   git push
     * note that if your post-receive hook does a checkout, that may mess up
 	  your permissions.
+* git branch -d module-updates
 * chmod -R 755 ~/public_html
 
 ## Adding untracked files
@@ -61,3 +63,18 @@ and add/stage them.
 * git commit -m 'added new files'
 * git pull ; git push ; etc.
 
+
+## creating a staging version of the website (not a script)
+
+There's no script for this - just some notes:
+
+* get backup .sql.gz file using backup-and-migrate module
+* cp -rp public_html staging
+* in cpanel, create new empty sql database, 'staging'
+  * add user for main db to new 'staging' db
+    * with all privileges
+* in cpanel, start phpmyadmin tool
+  * go to new staging db, click Import
+  * upload .sql.gz file from backup
+  * do it
+* in staging/sites/default/settings.php, change db name to 'staging' 
